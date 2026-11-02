@@ -1,0 +1,28 @@
+# Ambiente virtual
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Configurações sensíveis
+.env
+.env.*
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# Modelos gerados
+models/*
+!models/.gitkeep
+
+# Dados processados
+data/interim/*
+!data/interim/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
