@@ -2,7 +2,7 @@
 
 **Projeto:** Credit Risk — Score de Inadimplência  
 **Fase:** 1 — Business Understanding  
-**Status:** Revisão metodológica concluída — limitações documentadas
+**Status:** Fase documentada para o escopo acadêmico; definições operacionais e validação de negócio permanecem pendentes de evidência da PayFlow
 
 ---
 
@@ -102,6 +102,27 @@ O modelo produzirá uma probabilidade estimada de inadimplência, que poderá su
 - Aplicação de critérios de concessão definidos pela empresa.
 
 A política definitiva não será determinada exclusivamente pelo algoritmo. Será necessário considerar as métricas, os custos dos erros e a governança das decisões.
+
+### Disponibilidade da taxa de juros
+
+`valor_solicitado` e `prazo_meses` podem representar condições fornecidas antecipadamente na solicitação. A taxa `juros_mensal_pct`, por sua vez, pode ser uma condição contratual estabelecida depois da avaliação e pode ser precificada a partir do risco. Usá-la antes da confirmação da ordem operacional poderia gerar circularidade entre score e taxa ou usar informação posterior ao momento da previsão. Como o material do desafio não documenta essa sequência, não a tratamos como fato: a taxa fica excluída até que a disponibilidade no instante de decisão seja demonstrada.
+
+### Por que observar 90 dias
+
+Uma janela de 90 dias pode equilibrar a maturação de eventos de inadimplência, o ciclo inicial de cobrança e a utilidade de obter um rótulo em prazo que ainda permita acompanhar a carteira. Uma janela curta acelera a avaliação, mas pode não observar eventos tardios; uma janela longa inclui mais tempo de maturação e posterga a confirmação do resultado. Essa é uma justificativa conceitual para o horizonte do desafio, não uma explicação comprovada de como o dataset sintético foi construído. O horizonte de observação também não define, por si só, a regra contratual de default.
+
+### Concepção das fontes de dados
+
+O CSV não comprova a origem de nenhuma variável. A tabela traz hipóteses de arquitetura conceitual, não linhagem confirmada. Disponibilidade e defasagem precisam ser verificadas com os sistemas reais antes de usar qualquer campo.
+
+| Grupo e exemplos | Fonte operacional hipotética | Disponibilidade estimada | Defasagem possível | Risco temporal e validação necessária |
+|---|---|---|---|---|
+| Perfil e cadastro: `idade`, `regiao`, `renda_mensal`, `autonomo`, `tempo_emprego_anos` | CRM, cadastro e originação | Cadastro ou solicitação | Atualização cadastral pode ocorrer depois ou estar desatualizada | Confirmar snapshot usado na decisão, data de atualização e fonte autorizada |
+| Histórico de crédito: `score_credito`, `inadimplencias_anteriores`, `dias_atraso_max_12m`, `utilizacao_credito`, `qtde_contratos_abertos` | Bureaus e sistemas financeiros | Consulta de bureau ou visão financeira anterior à decisão | Atualização do bureau, fechamento de ciclo e latência de consulta | Verificar timestamp da consulta, janela histórica e se o valor existia no instante de concessão |
+| Solicitação: `valor_solicitado`, `prazo_meses`, `tipo_produto` | Sistema de originação | Preenchimento da proposta | Condições podem mudar durante oferta ou negociação | Congelar a versão da proposta usada na avaliação |
+| Canal, contato e relacionamento: `canal_aquisicao`, `reclamacoes_6m`, `qtde_cartoes`, `possui_avalista` | Aplicativos, CRM, atendimento e originação | Canal na entrada; demais dados conforme consulta ou cadastro | Sincronização de eventos, atendimento em aberto ou mudança após a proposta | Confirmar definição, janela temporal e instante de captura de cada campo |
+| Preço: `juros_mensal_pct` | Motor de precificação e sistema financeiro | Possivelmente depois da avaliação de risco | Oferta ou contrato pode ser registrado após o score | Risco de circularidade e informação futura; validar a ordem real antes de remover a exclusão preventiva |
+| Desfechos posteriores: parcelas pagas, atraso inicial e status aos 90 dias | Cobrança e sistema financeiro | Após a concessão | Depende da maturação dos pagamentos e consolidação | São informação futura para a decisão inicial e permanecem excluídas; validar definição do target separadamente |
 
 ## 7. Restrições e riscos identificados
 

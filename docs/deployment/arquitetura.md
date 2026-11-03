@@ -2,7 +2,7 @@
 
 ## 1. Objetivo
 
-Propor a disponibilização do modelo de previsão de inadimplência em 90 dias por meio de um serviço de inferência acessível através de API REST.
+Propor a disponibilização futura do modelo de previsão de inadimplência em 90 dias por meio de um serviço de inferência acessível através de API REST. O projeto não implementa nem implanta esse serviço.
 
 A solução deverá permitir que sistemas internos da PayFlow consultem a probabilidade estimada de inadimplência de um cliente no momento da solicitação de crédito.
 
@@ -42,7 +42,7 @@ Os dados são processados pelo mesmo pipeline utilizado no treinamento.
 
 A Regressão Logística calcula a probabilidade estimada de inadimplência.
 
-A API retorna a probabilidade, a classificação obtida com threshold de 0,20 e a versão do modelo.
+A rota proposta `POST /api/v1/predict` retorna a probabilidade, a classificação obtida com threshold de 0,20 e a versão do modelo. A rota proposta `GET /health` informa disponibilidade do serviço e carregamento do artefato, sem receber dados de clientes.
 
 O sistema de decisão utiliza essas informações em conjunto com regras de negócio e, quando necessário, revisão humana.
 
@@ -63,6 +63,8 @@ O identificador do cliente poderá existir separadamente como metadado de rastre
 
 A disponibilidade temporal das demais variáveis deverá ser confirmada antes de qualquer implantação real.
 
+A validação do vocabulário categórico é responsabilidade da camada da API, antes da inferência. Com base no CSV atual, os valores conhecidos são `canal_aquisicao` (`app`, `loja`, `parceiro`, `site`), `regiao` (`Centro-Oeste`, `Nordeste`, `Norte`, `Sudeste`, `Sul`) e `tipo_produto` (`bnpl`, `cartao`, `emprestimo_pessoal`). Categorias desconhecidas devem ser rejeitadas com HTTP 422, ainda que o `OneHotEncoder(handle_unknown="ignore")` possa processá-las sem erro. O contrato detalhado está em `contrato_api.md`.
+
 ## 6. Tecnologias propostas
 
 | Tecnologia | Finalidade |
@@ -78,13 +80,13 @@ Essas ferramentas são propostas de implementação, não tecnologias obrigatór
 
 ## 7. Segurança e rastreabilidade
 
-A proposta deverá considerar autenticação de sistemas consumidores, proteção de dados pessoais, controle de acesso e comunicação segura.
+A proposta deverá considerar autenticação e autorização dos sistemas consumidores, proteção de dados pessoais, restrição de acesso por identidade e regras de rede, além de comunicação HTTPS. O caminho de inferência versionado é `/api/v1/predict`; mudanças incompatíveis de contrato requerem nova versão. Os erros propostos incluem 400 (JSON/estrutura malformados), 401/403 (autenticação/autorização), 422 (validação de campos ou categoria), 500 (falha interna) e 503 (serviço/modelo indisponível).
 
 As inferências deverão ser rastreáveis por identificadores técnicos, timestamps e versões do modelo, evitando registrar dados pessoais desnecessários.
 
 ## 8. Limitações
 
-A arquitetura representa uma proposta acadêmica, não um serviço aprovado para produção.
+A arquitetura representa uma proposta acadêmica. `GET /health` e `POST /api/v1/predict` são especificações, não endpoints funcionais; não há API implantada ou serviço aprovado para produção.
 
 O modelo atual apresenta recall limitado e não foi validado em dados reais e temporais.
 
@@ -94,7 +96,7 @@ O serviço não deverá aprovar ou negar crédito automaticamente apenas com bas
 
 ## 9. Próximas atividades
 
-- Especificar os endpoints e contratos da API.
+- Implementar e validar os endpoints e contratos propostos em um ambiente autorizado, após definir requisitos operacionais.
 - Definir a estratégia de empacotamento e versionamento do modelo.
 - Propor logging e monitoramento.
 - Estabelecer critérios de drift, retreinamento e governança do target.

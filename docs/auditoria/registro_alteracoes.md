@@ -1,63 +1,23 @@
-# Registro de alterações e evidências
+# Registro de alterações e validações
 
-## 1. Baseline histórico validado
+## Alterações
 
-Os números publicados no projeto foram reproduzidos no ambiente atual com a seguinte execução:
+- Preservados o CSV bruto, o modelo v1, o threshold 0,20 e as métricas publicadas.
+- Acrescentadas comparações de imputação, sensibilidade de threshold, Average Precision, Brier Skill Score, class weight, ablações, análise didática de leakage e métricas exploratórias por grupos.
+- Incluídas sementes, versões, parâmetros e resultados completos em `reports/experiments/`.
+- Simplificadas as dependências diretas e incluído `pytest` em `requirements-dev.txt`.
+- Versionados o joblib e os metadados v1; o notebook reproduz o JSON, incluindo Brier Score, e preserva a baseline existente.
+- Atualizados os notebooks, documentação, relatório Word e textos dos slides de modelagem, avaliação, monitoramento e conclusão.
 
-- 5.000 registros e 23 colunas no dataset bruto.
-- taxa de default observada: 12,18%.
-- divisão 80/20 estratificada, com 4.000 registros em treino e 1.000 no teste.
-- Regressão Logística com threshold de 0,20.
+## Validação registrada
 
-Resultados confirmados:
+- Scripts executados no ambiente limpo: `python -m src.experiments.development_validation` e `python -m src.experiments.complementary_analysis`; ambos terminaram com código 0 e reproduziram os CSVs e JSONs de `reports/experiments/`.
+- Notebooks 01–04: 14, 12, 12 e 27 células executadas sem erro de célula no ambiente limpo. Notebook 04 reproduziu e conferiu os metadados. Serialização `n_jobs=1` evitou erro de encerramento do resource tracker; avisos de permissões do IPython/ZMQ do host persistem.
+- Ambiente limpo: `pip install -r requirements-dev.txt` concluiu; última suíte completa: `20 passed in 17.63s`.
+- Integridade: `git diff --check` concluiu sem erros de whitespace; Git apenas avisou a normalização CRLF de README e requirements. Todos os XMLs e relacionamentos do PPTX foram analisados e o pacote está íntegro; os textos dos slides foram conferidos.
+- PowerPoint: quatro slides foram sincronizados; renderização visual não foi verificada.
+- Relatório Word: conteúdo salvo com 10 tabelas; renderização visual não foi verificada.
 
-| Métrica | Valor |
-|---|---:|
-| Acurácia | 82,70% |
-| Precision | 33,76% |
-| Recall | 43,44% |
-| F1-score | 37,99% |
-| ROC-AUC | 0,7202 |
-| Matriz de confusão | TN=774, FP=104, FN=69, TP=53 |
+## Limitações
 
-Esses valores permaneceram como referência histórica e não foram substituídos por novos resultados experimentais.
-
-## 2. Alterações implementadas
-
-### 2.1. Pipeline de pré-processamento
-
-- Adicionada a opção `use_missing_indicator` em `src/features/preprocessing.py`.
-- A estratégia padrão continua igual à baseline original.
-- Quando ativada, a imputação numérica passa a usar `SimpleImputer(strategy="median", add_indicator=True)` para permitir a análise de ausência como sinal preditivo.
-
-### 2.2. Testes automatizados
-
-- Criado o arquivo `tests/test_preprocessing_and_baseline.py`.
-- Os testes validam:
-  - shape do dataset e taxa de default;
-  - presença dos indicadores de dados ausentes;
-  - comportamento padrão do pipeline sem alteração da baseline.
-
-### 2.3. Documentação e reprodutibilidade
-
-- Criado o diagnóstico e checklist em `docs/auditoria/plano_correcao.md`.
-- Atualizadas as descrições de business understanding e métricas para deixar explícita a limitação de informação sobre a regra contratual de default e a justificativa do threshold 0,20.
-- Finalizada a seção de segurança do contrato de API em `docs/deployment/contrato_api.md`.
-- Normalizada a codificação do arquivo de dependências para facilitar execução em ambientes compatíveis.
-
-## 3. Validação executada
-
-Comando executado:
-
-```bash
-cd "d:/FIAP/payflow-credit-risk" && .\.venv\Scripts\python.exe -m pytest tests/test_preprocessing_and_baseline.py -q
-```
-
-Resultado: 3 testes aprovados.
-
-## 4. Limitações que permanecem
-
-- Não há regra contratual de default documentada no conjunto de dados; a variável `default_90d` é tratada como indicador observacional.
-- Os custos reais de falso positivo e falso negativo não foram fornecidos.
-- Não foi possível transformar a proposta de implantação em implementação real sem ampliar o escopo do projeto e sem dados operacionais.
-- O modelo e o threshold continuam sendo uma referência acadêmica e experimental e não uma política de concessão de crédito em produção.
+A avaliação do teste já foi consultada; seus intervalos não são validação independente. A base não contém datas, custos operacionais, regras completas de target ou proveniência real das variáveis. A análise por grupos é exploratória e não demonstra fairness. Não foi implementada API, não houve A/B e não há validação de produção.

@@ -161,6 +161,16 @@ Os valores de referência resultam de uma avaliação acadêmica.
 
 Antes de uma implantação real, será necessário estabelecer critérios objetivos de alerta, responsáveis, metas operacionais e procedimentos de resposta aprovados pela PayFlow.
 
+### Métricas e heurísticas adicionais
+
+Além das métricas já listadas, a proposta acompanha Average Precision (com prevalência como referência), distribuição das probabilidades e taxa de sinalização. ROC-AUC, PR-AUC/Average Precision, recall e Brier só devem ser calculados quando o rótulo estiver consolidado e a janela de 90 dias tiver maturado. Indicadores operacionais incluem volume, erros de validação, disponibilidade e tempo de resposta.
+
+PSI de 0,10 e 0,25 podem ser usados apenas como referências heurísticas iniciais para investigar mudanças. Não são limites universais nem disparam retreinamento automaticamente; precisam ser calibrados com dados, tamanho amostral, variáveis e custos do contexto real.
+
+### Sequência de implantação experimental
+
+Como proposta acadêmica alinhada aos princípios de experimentação e testes A/B discutidos na FIAP: (1) validação offline; (2) shadow mode sem efeito nas decisões; (3) piloto em grupo reduzido, com revisão humana; (4) comparação com política vigente; (5) acompanhamento de resultados, segurança e grupos; e (6) critérios prévios de interrupção por erro, degradação ou impacto adverso. Nenhuma etapa foi executada. Hipótese, MDE, amostra e duração de um teste real dependem de volumes, taxas-base e requisitos operacionais ainda não fornecidos.
+
 ## 12. Referências
 
 - FIAP — Introdução ao CRISP-DM, seção Deployment.

@@ -2,7 +2,7 @@
 
 ## 1. Objetivo
 
-Definir o contrato de comunicação entre o sistema de crédito da PayFlow e o serviço de inferência responsável pela estimativa de inadimplência em até 90 dias.
+Definir uma proposta de contrato de comunicação entre o sistema de crédito da PayFlow e um futuro serviço de inferência responsável pela estimativa de inadimplência em até 90 dias. Este contrato é especificação acadêmica: nenhum endpoint está implementado ou implantado.
 
 A API será proposta como um serviço de apoio à decisão, não como mecanismo autônomo de aprovação ou recusa de crédito.
 
@@ -25,10 +25,16 @@ A API será proposta como um serviço de apoio à decisão, não como mecanismo 
 **Endpoint:** `/api/v1/predict`
 
 **Content-Type:** `application/json`
-> Nota: a proposta atual não inclui um endpoint `/health`. Se essa rota for adicionada em versões futuras, ela deve ser documentada como um contrato separado e claramente identificado como serviço proposto ou implementado.
 A requisição deverá conter as 17 variáveis utilizadas no treinamento, com os mesmos nomes e tipos.
 
-### 3.1 Campos de entrada
+### 3.1 Verificação de saúde proposta
+
+**Método:** `GET`
+**Endpoint:** `/health`
+
+Esta rota faz parte da proposta da versão 1. Deve indicar se o serviço está ativo e se o artefato do modelo está carregado, sem receber dados de clientes. Uma resposta de sucesso proposta é `200` com `{"status":"ok","model_loaded":true,"versao_modelo":"1.0.0"}`; indisponibilidade do modelo deve resultar em `503`. A rota é especificada, mas não implementada.
+
+### 3.2 Campos de entrada
 
 | Campo | Tipo | Descrição |
 |---|---|---|
@@ -52,11 +58,11 @@ A requisição deverá conter as 17 variáveis utilizadas no treinamento, com os
 
 Os campos de renda e tempo de emprego poderão conter valores nulos, tratados pelo pipeline de imputação treinado.
 
-Os demais campos deverão ser informados, salvo se futuras regras de validação justificarem outro comportamento.
+Os demais campos deverão ser informados. A camada da API será responsável por validar presença, tipo, valores permitidos e categorias antes de chamar o pipeline. As categorias observadas no CSV de treinamento são `canal_aquisicao` = `app`, `loja`, `parceiro`, `site`; `regiao` = `Centro-Oeste`, `Nordeste`, `Norte`, `Sudeste`, `Sul`; e `tipo_produto` = `bnpl`, `cartao`, `emprestimo_pessoal`. Essa lista descreve o vocabulário observado nos dados, não uma garantia de que represente todo o vocabulário operacional.
 
-Valores categóricos deverão respeitar o vocabulário e as regras definidas na preparação dos dados. Categorias não vistas no treinamento não deverão ser aceitas silenciosamente sem uma política explícita.
+Categorias não vistas no treinamento serão rejeitadas pela validação da API com HTTP 422. Embora o `OneHotEncoder(handle_unknown="ignore")` do pipeline possa ignorá-las tecnicamente, o contrato proposto exige validação explícita para que uma categoria desconhecida não seja aceita silenciosamente.
 
-### 3.2 Exemplo de requisição
+### 3.3 Exemplo de requisição
 
 Valores puramente ilustrativos; o exemplo não representa uma observação validada do dataset.
 
@@ -88,7 +94,7 @@ O exemplo deverá ser adaptado aos valores categóricos efetivamente aceitos pel
 
 Após receber a requisição, o serviço deverá:
 
-1. Validar o esquema, os tipos e os valores recebidos.
+1. Validar o esquema, tipos, faixas e categorias recebidos; rejeitar campos ausentes, extras ou incompatíveis conforme os erros definidos abaixo.
 2. Confirmar a disponibilidade das variáveis no momento da solicitação.
 3. Organizar as entradas na estrutura esperada pelo pipeline.
 4. Aplicar o pré-processamento já ajustado no treinamento.
@@ -127,11 +133,12 @@ A classificação 1 indica uma sinalização de risco pelo modelo. Ela não repr
 | Código HTTP | Situação |
 |---|---|
 | 200 | Inferência realizada |
-| 400 | Requisição malformada ou campos inesperados |
+| 400 | JSON malformado ou estrutura da requisição inválida |
 | 401 | Cliente não autenticado |
-| 422 | Dados incompatíveis com o esquema |
+| 403 | Cliente autenticado sem permissão |
+| 422 | Campo ausente/extra, tipo ou valor inválido, ou categoria desconhecida |
 | 500 | Erro interno de processamento |
-| 503 | Modelo temporariamente indisponível |
+| 503 | Modelo não carregado ou serviço temporariamente indisponível (inclui `/health`) |
 
 ### Exemplo de erro de validação
 
@@ -154,7 +161,8 @@ O serviço deverá contemplar:
 - Registro de eventos de inferência, falhas de validação e erros internos para governança e rastreabilidade.
 - Tratamento explícito de categorias não previstas; no contrato proposto, categorias desconhecidas devem ser rejeitadas com erro de validação em vez de serem aceitas silenciosamente.
 - Versionamento da interface de API, de modo que mudanças no schema ou no comportamento do modelo sejam rastreáveis.
+- A rota de inferência é versionada no caminho (`/api/v1/predict`); alteração incompatível de schema ou semântica requer nova versão.
 
 O uso do `OneHotEncoder(handle_unknown="ignore")` no treinamento não elimina a necessidade de adesão ao contrato. Em inferência, a API deve rejeitar categorias fora do vocabulário esperado e retornar uma resposta de erro de validação (HTTP 422), preservando a regra de negócio e reduzindo o risco de vazamento de informação por uso de entrada mal formada.
 
-O documento descreve uma proposta de implantação e não um serviço em operação. A implementação real exigiria controle de acesso, auditoria, políticas de segurança, governança de dados e monitoramento operacional específicos do ambiente em que o modelo passaria a atuar.
+O documento descreve uma proposta de implantação: `/health` e `/api/v1/predict` não são endpoints implementados, e não existe implantação em produção. A implementação real exigiria controle de acesso, auditoria, políticas de segurança, governança de dados e monitoramento operacional específicos do ambiente em que o modelo passaria a atuar.

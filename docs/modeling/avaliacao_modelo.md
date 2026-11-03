@@ -12,7 +12,9 @@ Avaliar a capacidade de um modelo de Regressão Logística de prever inadimplên
 - **Dados de teste:** 1.000 registros
 - **Validação:** Stratified K-Fold com cinco divisões
 
-A seleção considerou interpretabilidade, ROC-AUC e equilíbrio entre precision e recall. O threshold foi escolhido com base no F1-score observado na validação cruzada.
+O F1 OOF no threshold 0,20 foi a métrica prioritária para comparar a identificação da classe positiva minoritária; a ROC-AUC avaliou a discriminação. No desenvolvimento, a Regressão Logística obteve F1 OOF de 0,4122 e ROC-AUC média por fold de 0,7762. A Random Forest obteve F1 OOF de 0,4248 e ROC-AUC média de 0,7727: vantagem de F1 de 0,0126 para a floresta e diferença de ROC-AUC de 0,0035 a favor da regressão. A escolha final não foi determinada pelo maior F1 isoladamente: a Regressão Logística foi mantida como referência acadêmica por sua interpretação mais direta, aceitando explicitamente o F1 um pouco menor. Essa decisão reflete o objetivo pedagógico de um modelo interpretável, não uma superioridade preditiva ou operacional.
+
+O limiar 0,20 foi mantido como baseline histórica e não foi substituído pelo menor custo hipotético. O limiar e os modelos foram comparados na mesma validação cruzada; selecionar a combinação com melhor resultado nesses dados pode produzir otimismo de seleção. Uma avaliação confirmatória exigiria validação aninhada ou novos dados de desenvolvimento. O teste histórico permanece reservado para avaliação final já realizada e não foi usado nesses experimentos.
 
 ## 3. Resultados finais
 
@@ -51,8 +53,9 @@ A curva de calibração da validação cruzada apresentou proximidade visual com
 - A definição operacional exata de default depende de confirmação.
 - A disponibilidade de todas as variáveis no momento da decisão precisa ser verificada em produção.
 - Não houve otimização sistemática de hiperparâmetros.
-- A escolha do threshold foi baseada em uma comparação discreta de valores, com possível otimismo de seleção.
+- O threshold 0,20 foi preservado como referência histórica após comparação discreta de valores de F1 OOF; a análise econômica hipotética não o substituiu. A seleção de modelos e thresholds nos mesmos folds pode gerar otimismo, e uma confirmação exigiria validação aninhada ou nova amostra de desenvolvimento.
 - O Random Forest apresentou F1-score ligeiramente maior na comparação exploratória, mas a Regressão Logística foi priorizada pela interpretabilidade e pelo ROC-AUC.
+- A diferença entre os experimentos anteriores que citavam ROC-AUC média 0,7762 e OOF 0,7743 foi reproduzida porque são agregações distintas dos mesmos folds. A referência 0,7652 não pôde ser associada a uma configuração registrada e permanece sem reprodução.
 
 ## 7. Decisão
 
@@ -62,7 +65,13 @@ Seu desempenho não justifica, isoladamente, a automação de decisões de conce
 
 O conjunto de teste reservado já foi utilizado na avaliação final. Alterações futuras no modelo deverão ser avaliadas por um novo protocolo de validação, sem reutilizar esse teste para selecionar configurações.
 
-## 8. Referências
+## 8. Métricas complementares
+
+Na validação OOF de desenvolvimento, a Average Precision foi 0,3799 para Regressão Logística e 0,3907 para Random Forest, ante prevalência 0,12175. Foi calculada por `average_precision_score`, que não é a integração trapezoidal da curva precision-recall. O Brier Skill Score foi 0,1478 e 0,1430, respectivamente, em relação à prevalência de treino específica de cada fold. A análise de `class_weight="balanced"` aumentou recall, mas reduziu precision e piorou Brier; não alterou a baseline.
+
+Os intervalos de ROC-AUC, precision e recall do teste histórico constam em `docs/auditoria/decisoes_limitacoes.md` e `reports/experiments/intervalos_teste_historico.json`. Como o teste já havia sido consultado, os intervalos somente quantificam incerteza amostral; não contam como nova validação.
+
+## 9. Referências
 
 - FIAP — Introdução ao CRISP-DM.
 - FIAP — Metas de Negócio vs. Metas Analíticas.

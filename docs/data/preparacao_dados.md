@@ -22,7 +22,9 @@ Foram excluídas das features:
 - `parcelas_pagas_ate_3m`: informação futura.
 - `atraso_primeira_parcela_dias`: informação futura.
 - `status_apos_90d`: informação futura.
-- `juros_mensal_pct`: exclusão preventiva, pois sua disponibilidade na decisão não foi confirmada.
+- `juros_mensal_pct`: excluída preventivamente enquanto não houver evidência de sua disponibilidade no instante previsto para a decisão.
+
+`valor_solicitado` e `prazo_meses` representam condições que podem ser informadas como parte da solicitação antes da análise do risco. Já `juros_mensal_pct` pode ser definida posteriormente como condição contratual e pode refletir precificação baseada no próprio risco. Se a taxa for determinada após o score, seu uso introduziria informação indisponível no momento da previsão ou circularidade entre score e preço. A ordem efetiva do fluxo da PayFlow não está documentada; portanto, esta é uma justificativa metodológica, não uma afirmação sobre a operação real. A exclusão será mantida até que a disponibilidade temporal seja comprovada.
 
 ## 3. Divisão de dados
 

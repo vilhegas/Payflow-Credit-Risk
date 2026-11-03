@@ -3,7 +3,7 @@
 **Projeto:** PayFlow Credit Risk  
 **Metodologia:** CRISP-DM  
 **Fase:** Data Understanding  
-**Status:** Análises principais executadas — revisão final pendente
+**Status:** Análises exploratórias e revisão metodológica concluídas; limitações e uso histórico do conjunto completo registrados
 
 ## 1. Objetivo
 
@@ -86,7 +86,11 @@ Os 526 registros com `tempo_emprego_anos` ausente concentraram-se em trabalhador
 
 A mediana global de `tempo_emprego_anos` foi aproximadamente 4,64 anos, enquanto a mediana entre autônomos foi 4,86 anos e entre não autônomos foi 4,62 anos. A proximidade entre as medianas indica que a imputação global pela mediana pode ser uma aproximação aceitável em termos de escala, mas a ausência do dado deve continuar sendo tratada como fenômeno específico, e não como evidência automática de que a mediana global represente a melhor estratégia para todos os grupos.
 
-A estratégia `SimpleImputer(strategy="median", add_indicator=True)` foi testada nos dados de desenvolvimento e não apresentou melhoria mensurável em relação à versão original do pipeline. Portanto, a configuração padrão foi preservada como baseline, e o indicador de ausência foi mantido como opção experimental e não como regra de modelagem definitiva.
+A comparação reproduzível foi executada apenas nos 4.000 registros de desenvolvimento, com cinco folds estratificados idênticos, `random_state=42`, regressão logística e transformações ajustadas dentro de cada fold. A mediana global obteve ROC-AUC média 0,776201 e OOF agregada 0,774315; a mediana com indicadores obteve 0,775194 e 0,773545; a imputação de tempo de emprego pela mediana do grupo de autonomia obteve 0,776274 e 0,774335. No threshold 0,20, o F1 OOF foi respectivamente 0,412241, 0,418395 e 0,412241. Para os indicadores, as diferenças contra a mediana foram precision +0,006003, recall +0,006160, F1 +0,006154, Brier +0,000194 e ROC-AUC OOF −0,000770. Para imputação por grupo, precision, recall e F1 não mudaram; Brier aumentou 0,000001. O indicador trouxe troca pequena entre métricas; os dados não sustentam declarar melhoria geral. A imputação por grupo teve diferenças praticamente nulas e foi mantida como alternativa experimental. A mediana global continua sendo a configuração histórica.
+
+Uma análise complementar de desenvolvimento estimou Average Precision, Brier Skill Score, ablações de features, class weight, correlação juros-score, demonstração separada de leakage e diferenças exploratórias por grupos. Consulte `docs/auditoria/decisoes_limitacoes.md` para a síntese e `reports/experiments/` para resultados completos e parâmetros. Nenhuma feature foi removida automaticamente por pequenas diferenças; as variáveis futuras só foram usadas em experiências didáticas isoladas.
+
+Resultados anteriores citavam ROC-AUC média de aproximadamente 0,7762 e OOF agregada de aproximadamente 0,7743; ambos foram reproduzidos. Também havia uma referência a 0,7652, mas não foi encontrado registro da semente, dos folds, do split ou da configuração que a gerou. Ela não foi reproduzida, e sua origem permanece indeterminada. Os valores e a configuração atuais estão em `reports/experiments/` e podem ser refeitos com `python -m src.experiments.development_validation`.
 
 ## 5. Data Leakage
 
@@ -118,7 +122,8 @@ O identificador `id_cliente` também não será utilizado como variável predito
 - A regra operacional exata que define default não está completamente especificada.
 - As associações exploratórias não comprovam causalidade.
 - A relevância preditiva das variáveis deverá ser avaliada em dados separados do treinamento.
-- É necessário complementar a investigação dos valores ausentes de tempo de emprego.
+- A validação é aleatória, não temporal, pois não há datas no dataset.
+- A análise descritiva original em `02_eda.ipynb` consultou o conjunto completo antes da divisão; isso é preservado como histórico exploratório e não foi usado para seleção dos experimentos de modelagem aqui registrados.
 
 ## 8. Referências
 
