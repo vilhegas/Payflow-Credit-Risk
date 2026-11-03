@@ -1,0 +1,22 @@
+﻿analise,grupo,clientes,taxa_default_pct
+Score de crédito,300-500,191,19.37
+Score de crédito,501-600,1143,15.92
+Score de crédito,601-700,2239,11.34
+Score de crédito,701-800,1208,9.44
+Score de crédito,801-900,219,10.05
+Tipo de produto,bnpl,736,15.76
+Tipo de produto,cartao,1799,12.01
+Tipo de produto,emprestimo_pessoal,2465,11.24
+Renda mensal,"(799.999, 2136.475]",1202,18.14
+Renda mensal,"(2136.475, 3496.405]",1202,11.73
+Renda mensal,"(3496.405, 5863.252]",1202,10.07
+Renda mensal,"(5863.252, 35000.0]",1202,8.15
+Histórico de atraso,Sem atraso,3018,8.12
+Histórico de atraso,1-30 dias,1491,12.61
+Histórico de atraso,31-60 dias,280,26.43
+Histórico de atraso,61-90 dias,148,41.89
+Histórico de atraso,Mais de 90 dias,63,63.49
+Utilização de crédito,0-25%,1850,11.41
+Utilização de crédito,25-50%,2239,12.06
+Utilização de crédito,50-75%,808,13.86
+Utilização de crédito,75-100%,103,15.53

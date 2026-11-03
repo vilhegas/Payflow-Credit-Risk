@@ -80,6 +80,7 @@ A base é sintética. A disponibilidade temporal de todas as variáveis candidat
 
 A definição exata de default também depende de documentação adicional da regra de negócio.
 
+
 ## 9. Referências
 
 - FIAP — Introdução ao CRISP-DM, páginas 11–12.

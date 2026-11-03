@@ -143,8 +143,6 @@ A classificação 1 indica uma sinalização de risco pelo modelo. Ela não repr
 }
 ```
 
-A API deverá produzir mensagens controladas, sem expor dados sensíveis ou detalhes internos desnecessários.
-
 ## 7. Segurança e privacidade
 
 O serviço deverá contemplar:
