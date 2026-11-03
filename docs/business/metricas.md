@@ -24,7 +24,7 @@ Os KPIs representam os resultados que a empresa deseja melhorar.
 | Taxa de aprovação | Preservar a capacidade sustentável de concessão | Solicitações aprovadas / solicitações avaliadas |
 | Custo operacional de cobrança | Melhorar o planejamento e a eficiência | Custo de cobrança em relação ao volume de operações |
 
-Esses indicadores são propostas para avaliar o problema. O desafio não fornece metas financeiras numéricas nem valores reais de perda e recuperação.
+Esses indicadores são propostas para avaliar o problema. O desafio não fornece metas financeiras numéricas nem valores reais de perda e recuperação. Os resultados apresentados neste projeto são baselines observadas; não definem metas quantitativas de negócio. Qualquer alvo numérico deve ser acordado com a PayFlow após estabelecer a política atual, a população, os custos e a capacidade operacional.
 
 ## 3. Metas analíticas
 
@@ -131,15 +131,13 @@ A escolha final deverá considerar:
 4. Custos financeiros e operacionais;
 5. Restrições e objetivos da política de crédito.
 
-## 6.1 Justificativa do threshold 0,20
+## 6.1 Registro do threshold 0,20
 
-O threshold de 0,20 foi mantido como valor experimental da baseline histórica porque ele equilibra melhor precision e recall para o contexto do desafio, sem que os custos reais de falso positivo e falso negativo tenham sido fornecidos.
+O threshold 0,20 é o valor histórico da baseline e foi preservado. A documentação disponível não confirma a justificativa original de sua escolha. Na análise atual, a regressão logística teve seu maior F1 entre os cortes discretos avaliados em 0,20 (F1 OOF 0,4122), mas essa comparação retrospectiva não comprova por que o valor foi escolhido originalmente. No mesmo corte, a Random Forest apresentou F1 OOF 0,4248. A Regressão Logística permanece como referência acadêmica por interpretabilidade; não se afirma superioridade geral.
 
-A escolha histórica foi feita principalmente pela análise do F1-score nas previsões out-of-fold do desenvolvimento, uma métrica que combina precision e recall. Esse critério é útil quando a classe positiva é minoritária, mas não incorpora custos financeiros ou operacionais.
+O limiar não representa uma política de crédito definitiva. Em cenários reais, os custos de falso negativo e falso positivo podem ser diferentes. Sem estimativas operacionais aprovadas, não é possível afirmar que 0,20, ou qualquer outro corte avaliado, seja economicamente ótimo ou adequado ao negócio.
 
-Entretanto, o valor do threshold não representa uma política de crédito definitiva. Em cenários de crédito real, o custo de um falso negativo (conceder crédito a um cliente que se torna inadimplente) e o custo de um falso positivo (rejeitar um cliente que seria saudável) podem ser muito diferentes. Sem essas informações operacionais, não é possível afirmar que um threshold econômicomente ótimo exista ou que o melhor valor estatístico seja adequado ao negócio.
-
-A análise deve, portanto, ser interpretada como uma simulação experimental de apoio à decisão, com 0,20 preservado como referência histórica e não como regra operacional formal.
+A análise é uma simulação experimental de apoio à decisão. O corte histórico é reportado separadamente da comparação de modelos e não deve ser lido como regra operacional formal.
 
 ## 6.2 Sensibilidade econômica simulada
 

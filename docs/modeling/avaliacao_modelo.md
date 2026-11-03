@@ -16,6 +16,32 @@ O F1 OOF no threshold 0,20 foi a métrica prioritária para comparar a identific
 
 O limiar 0,20 foi mantido como baseline histórica e não foi substituído pelo menor custo hipotético. O limiar e os modelos foram comparados na mesma validação cruzada; selecionar a combinação com melhor resultado nesses dados pode produzir otimismo de seleção. Uma avaliação confirmatória exigiria validação aninhada ou novos dados de desenvolvimento. O teste histórico permanece reservado para avaliação final já realizada e não foi usado nesses experimentos.
 
+### Configuração reproduzível
+
+| Componente | Configuração registrada |
+|---|---|
+| Pré-processamento numérico | Imputação pela mediana e `StandardScaler` |
+| Pré-processamento categórico | Imputação pela categoria mais frequente e `OneHotEncoder(handle_unknown="ignore")` |
+| Regressão Logística | `max_iter=1000`, `random_state=42` |
+| Árvore de Decisão | `max_depth=5`, `min_samples_leaf=20`, `random_state=42` |
+| Random Forest | `n_estimators=200`, `min_samples_leaf=10`, `random_state=42`, `n_jobs=1` |
+| Validação cruzada | `StratifiedKFold(n_splits=5, shuffle=True, random_state=42)` |
+
+O pré-processamento é ajustado dentro de cada pipeline/fold. Não houve busca sistemática de hiperparâmetros.
+
+### Comparação por validação cruzada com corte padrão
+
+A tabela original de `cross_validate` usa `predict()` dos classificadores, isto é, o corte padrão de probabilidade 0,50 para Precision, Recall e F1. ROC-AUC não depende de um corte. Os valores são médias dos cinco folds; portanto, não devem ser confundidos com métricas calculadas sobre o vetor OOF inteiro.
+
+| Modelo | Accuracy | Precision | Recall | F1 | ROC-AUC média por fold |
+|---|---:|---:|---:|---:|---:|
+| Dummy Classifier | 0,8782 | 0,0000 | 0,0000 | 0,0000 | 0,5000 |
+| Regressão Logística | 0,8825 | 0,5729 | 0,1580 | 0,2453 | 0,7762 |
+| Árvore de Decisão | 0,8812 | 0,5373 | 0,1663 | 0,2536 | 0,7400 |
+| Random Forest | 0,8785 | 0,2333 | 0,0061 | 0,0120 | 0,7727 |
+
+Em uma análise OOF separada, as métricas de classe usam corte 0,20: F1 0,4122 para Regressão Logística e 0,4248 para Random Forest. A ROC-AUC sobre as predições OOF concatenadas foi 0,7743 e 0,7719, respectivamente; a média das ROC-AUCs calculadas fold a fold foi 0,7762 e 0,7727. O teste histórico (ROC-AUC 0,7202; F1 0,3799 no corte 0,20) é uma terceira avaliação distinta e já foi consultado.
+
 ## 3. Resultados finais
 
 | Métrica | Resultado |

@@ -92,7 +92,15 @@ Uma análise complementar de desenvolvimento estimou Average Precision, Brier Sk
 
 Resultados anteriores citavam ROC-AUC média de aproximadamente 0,7762 e OOF agregada de aproximadamente 0,7743; ambos foram reproduzidos. Também havia uma referência a 0,7652, mas não foi encontrado registro da semente, dos folds, do split ou da configuração que a gerou. Ela não foi reproduzida, e sua origem permanece indeterminada. Os valores e a configuração atuais estão em `reports/experiments/` e podem ser refeitos com `python -m src.experiments.development_validation`.
 
-## 5. Data Leakage
+## 5. Hipóteses, observações e interpretações
+
+As taxas e contagens das seções anteriores são observações descritivas do CSV sintético. Diferenças entre grupos são associações exploratórias, não efeitos causais nem comprovação de capacidade preditiva. As hipóteses narrativas sobre score, renda, histórico de atrasos, produto, utilização de crédito e ausência de renda devem ser lidas como perguntas de investigação, não como conclusões confirmadas.
+
+A quantidade solicitada teve 335 possíveis outliers pelo critério IQR; isso é uma observação sobre a distribuição, não evidência de relação com default. Uma hipótese ainda não avaliada é que a razão entre valor solicitado e renda possa contextualizar a capacidade de pagamento. Essa relação exige análise específica e validação fora da EDA exploratória já registrada. Não se afirma que a hipótese tenha sido testada ou confirmada.
+
+As hipóteses foram organizadas retrospectivamente na documentação para separar o que foi observado do que ainda precisa ser testado; não há registro de pré-registro anterior aos experimentos.
+
+## 6. Data Leakage
 
 O dicionário identifica três variáveis com informações posteriores à concessão:
 
@@ -104,7 +112,7 @@ Essas colunas não poderão ser utilizadas como preditoras na concessão de cré
 
 O identificador `id_cliente` também não será utilizado como variável preditora, e `default_90d` será reservado como target.
 
-## 6. Decisões preliminares para Data Preparation
+## 7. Decisões preliminares para Data Preparation
 
 1. Separar treino e teste antes de ajustar transformações estatísticas.
 2. Tratar valores ausentes utilizando somente informações do conjunto de treinamento.
@@ -115,7 +123,7 @@ O identificador `id_cliente` também não será utilizado como variável predito
 7. Verificar se as demais variáveis estariam disponíveis na concessão.
 8. Preservar o CSV original sem alterações.
 
-## 7. Limitações e pendências
+## 8. Limitações e pendências
 
 - O dataset é sintético.
 - Não há data de concessão identificada no dicionário.
@@ -125,7 +133,7 @@ O identificador `id_cliente` também não será utilizado como variável predito
 - A validação é aleatória, não temporal, pois não há datas no dataset.
 - A análise descritiva original em `02_eda.ipynb` consultou o conjunto completo antes da divisão; isso é preservado como histórico exploratório e não foi usado para seleção dos experimentos de modelagem aqui registrados.
 
-## 8. Referências
+## 9. Referências
 
 - FIAP — Análise Exploratória de Dados, Aulas 1 a 4.
 - FIAP — Estatística Essencial para Cientistas de Dados.

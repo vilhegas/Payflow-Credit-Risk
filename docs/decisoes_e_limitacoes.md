@@ -20,7 +20,7 @@ O artefato `models/modelo_payflow_v1.joblib`, seus metadados, dataset bruto e th
 
 ## Comparação de modelos em desenvolvimento
 
-Todos os modelos abaixo usam os mesmos folds estratificados (5, `random_state=42`), as mesmas features-base e threshold 0,20 para métricas de classe. Average Precision é calculada com `average_precision_score`; ela resume a curva precision-recall por soma ponderada dos ganhos de recall e não é a área trapezoidal da curva. A prevalência de default, 0,12175, é uma referência não informativa aproximada para Average Precision.
+Todos os modelos abaixo usam os mesmos folds estratificados (5, `random_state=42`), as mesmas features-base e threshold 0,20 para métricas de classe. `ROC-AUC OOF` é calculada uma vez sobre as predições OOF concatenadas; não é a média das cinco ROC-AUCs por fold. Para a Regressão Logística, a média por fold é 0,7762 e a AUC OOF concatenada é 0,7743; para Random Forest, são 0,7727 e 0,7719. O resultado de teste histórico (0,7202) é separado e não participou da seleção. Average Precision é calculada com `average_precision_score`; ela resume a curva precision-recall por soma ponderada dos ganhos de recall e não é a área trapezoidal da curva. A prevalência de default, 0,12175, é uma referência não informativa aproximada para Average Precision.
 
 | Experimento | ROC-AUC OOF | AP OOF | Precision | Recall | F1 | Brier | Brier Skill |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -46,7 +46,9 @@ Esses intervalos descrevem apenas a incerteza amostral do resultado histórico. 
 
 ## Features, leakage e grupos
 
-As duas variáveis posteriores foram testadas apenas como demonstração didática e nunca como candidatas para uso. Com `parcelas_pagas_ate_3m`, a ROC-AUC OOF observada foi 1,0000; com `atraso_primeira_parcela_dias`, 0,9991; juntas, 1,0000. Essa separação quase perfeita ilustra que informação produzida depois da concessão permite reconhecer o desfecho e não estaria disponível no momento legítimo da decisão.
+A inspeção direta do CSV encontrou que a condição `parcelas_pagas_ate_3m <= 1` reproduz o target em 5.000/5.000 linhas: os 4.391 casos com target 0 ficam acima de 1 parcela paga e os 609 casos com target 1 ficam em 0 ou 1 parcela paga. A condição `atraso_primeira_parcela_dias > 15` coincide com o target em 4.999/5.000 linhas; a única exceção tem atraso de 15 dias e target 1. Essas relações não provam que sejam a fórmula de geração ou a regra contratual do target. O código disponível não documenta essa proveniência, que permanece pendente.
+
+As duas variáveis posteriores foram testadas apenas como demonstração didática e nunca como candidatas para uso. Com `parcelas_pagas_ate_3m`, a ROC-AUC OOF observada foi 1,0000; com `atraso_primeira_parcela_dias`, 0,9991; juntas, 1,0000. Essa separação quase perfeita ilustra que informação produzida depois da concessão permite reconhecer o desfecho e não estaria disponível no momento legítimo da decisão. O rótulo não deve ser descrito como “90 dias consecutivos em atraso”: o horizonte de observação não especifica o evento contratual que gera default.
 
 No desenvolvimento, a correlação de Pearson entre `juros_mensal_pct` e `score_credito` foi -0,8007. Isso pode ser compatível com precificação relacionada ao risco, mas não demonstra a ordem operacional nem causalidade. Incluir a taxa alterou ROC-AUC OOF de 0,7743 para 0,7753 e Brier de 0,0911 para 0,0910; a feature segue excluída até sua disponibilidade no instante da decisão ser validada.
 
@@ -65,6 +67,15 @@ Uma avaliação futura deveria identificar safras e datas reais de concessão, s
 Antes de qualquer decisão automatizada: validação offline; execução em shadow mode; piloto reduzido com revisão humana; comparação com a política vigente; monitoramento de efeitos e critérios de interrupção acordados. Um desenho A/B exigiria hipótese, MDE, tamanho de amostra, duração, salvaguardas e autorização de risco/compliance; esses parâmetros dependem de dados operacionais ainda indisponíveis. Nenhum A/B ou deployment foi realizado.
 
 Monitorar qualidade e drift dos dados, probabilidades, taxa de sinalização, ROC-AUC, Average Precision, recall, Brier e indicadores operacionais. Referências PSI 0,10 e 0,25, se usadas, são heurísticas iniciais, sujeitas à calibração, tamanho da amostra e contexto; não são limites universais. Métricas com rótulo devem aguardar o horizonte completo de 90 dias.
+
+## Próximas hipóteses para v2 (não implementadas)
+
+- Avaliar `valor_solicitado / renda_mensal` com tratamento explícito de renda ausente/zero e validação temporal da disponibilidade dos campos.
+- Comparar lift/gains por faixas de score, com intervalos de incerteza e avaliação em dados não usados na seleção.
+- Estudar otimização do threshold somente após obter custos e objetivos operacionais aprovados; não presumir valores financeiros.
+- Tratar `valor_solicitado` como possível proxy de exposição, sujeito a definição de exposição efetiva e validação com dados operacionais; não equivale a EAD comprovada.
+
+Esses itens são propostas de investigação e não fazem parte do modelo, dos resultados ou dos artefatos v1 atuais.
 
 ## Artefatos reprodutíveis
 

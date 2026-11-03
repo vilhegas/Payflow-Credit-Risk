@@ -33,7 +33,7 @@ Dataset sintético para simular um cenário de **score de inadimplência** em um
 | parcelas_pagas_ate_3m | int | **LEAKAGE**: número de parcelas pagas até 3 meses após concessão |
 | atraso_primeira_parcela_dias | int | **LEAKAGE**: atraso (dias) na primeira parcela |
 | status_apos_90d | str | **LEAKAGE**: status 90 dias depois (em_dia/em_atraso_leve/default) |
-| default_90d | int | **Target**: 1 se entrou em default em até 90 dias; 0 caso contrário |
+| default_90d | int | **Target fornecido**: 1 se classificado em default na janela de até 90 dias; 0 caso contrário. A regra contratual e a fórmula de geração não estão documentadas. |
 
 ## Sugestão de carga
 

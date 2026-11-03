@@ -85,6 +85,8 @@ Portanto, adotaremos inicialmente a classificação fornecida pela variável `de
 
 Não devemos presumir que default signifique automaticamente 90 dias de atraso: o horizonte de observação e o critério de inadimplência são conceitos diferentes.
 
+Na inspeção do CSV, `parcelas_pagas_ate_3m <= 1` classifica os 5.000 registros exatamente como `default_90d`. `atraso_primeira_parcela_dias > 15` coincide em 4.999 registros; há um cliente rotulado como default com atraso de exatamente 15 dias. Essas relações observadas são fortes e justificam tratar as colunas como informação futura/leakage. Elas não comprovam a fórmula, a regra contratual ou a proveniência usada para gerar o target.
+
 ### 5.3 Momento da previsão
 
 O momento de referência será a avaliação da solicitação de crédito, antes da concessão.
@@ -101,7 +103,7 @@ O modelo produzirá uma probabilidade estimada de inadimplência, que poderá su
 - Priorização de avaliações de risco;
 - Aplicação de critérios de concessão definidos pela empresa.
 
-A política definitiva não será determinada exclusivamente pelo algoritmo. Será necessário considerar as métricas, os custos dos erros e a governança das decisões.
+A política definitiva não será determinada exclusivamente pelo algoritmo. Será necessário considerar as métricas, os custos dos erros e a governança das decisões. O modelo apoia a análise e não toma a decisão de concessão. Como proposta conceitual, a função autorizada de Crédito tomaria a decisão final sob política aprovada pela função de Riscos. A responsabilidade formal e a delegação precisam ser confirmadas pela PayFlow; esta proposta não descreve um organograma ou uma política confirmados.
 
 ### Disponibilidade da taxa de juros
 

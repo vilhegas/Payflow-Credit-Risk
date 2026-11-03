@@ -12,7 +12,7 @@ Desenvolver e avaliar um modelo de classificação binária (`default_90d`), ide
 - **Preparação:** seleção de 17 variáveis preditoras, imputação de ausentes, padronização numérica e One-Hot Encoding; exclusão de identificador, alvo e variáveis com informações futuras.
 - **Validação:** divisão estratificada de 80% para treinamento e 20% para teste; validação cruzada estratificada com 5 divisões no treinamento.
 - **Modelos comparados:** Dummy Classifier, Regressão Logística, Árvore de Decisão e Random Forest.
-- **Modelo de referência acadêmica:** Regressão Logística com threshold histórico **0,20**. Na validação OOF, a Random Forest obteve F1 0,4248 contra 0,4122 da regressão; a Regressão Logística foi mantida por interpretabilidade e diferença pequena de ROC-AUC (0,7762 contra 0,7727), não por maior F1.
+- **Modelo de referência acadêmica:** Regressão Logística com threshold histórico **0,20**. Na comparação OOF com threshold 0,20, a Random Forest obteve F1 0,4248 contra 0,4122 da regressão. A ROC-AUC média dos cinco folds foi 0,7762 para Regressão Logística e 0,7727 para Random Forest; sobre as probabilidades OOF concatenadas, foi 0,7743 e 0,7719. A Regressão Logística foi mantida pela interpretabilidade, simplicidade e facilidade de implementação, não por maior F1 ou superioridade geral.
 
 ## Resultados no conjunto de teste
 
@@ -33,7 +33,7 @@ A matriz de confusão registrou **53 verdadeiros positivos, 69 falsos negativos,
 data/raw/              # Dataset original
 notebooks/             # 01_auditoria, 02_eda, 03_preparacao, 04_modelagem
 src/features/          # Função reutilizável de pré-processamento
-models/                # Artefatos serializados e metadados (gerados localmente)
+models/                # Baseline v1 versionada e seus metadados
 docs/business/         # Problema e métricas de negócio
 docs/data/             # EDA e preparação
 docs/modeling/         # Avaliação do modelo
