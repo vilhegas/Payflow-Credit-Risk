@@ -1,0 +1,32 @@
+{
+  "dataset": "data/raw/payflow_credit_risk.csv",
+  "dataset_sha256": "a30bf89820062a6927fa99c1180468075a234f16739d35624350936332f73bd8",
+  "script_sha256": "8149e7332941d36e044e2e41f333d46c6d4be3dacf8a46cc90860cd93f092a83",
+  "development_rows": 4000,
+  "development_split": {
+    "test_size": 0.2,
+    "stratify": true,
+    "random_state": 42
+  },
+  "cv": {
+    "name": "StratifiedKFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 42
+  },
+  "threshold": 0.2,
+  "threshold_usage": "reporting only; retained historical operating point",
+  "bootstrap": {
+    "replicates": 5000,
+    "seed": 42,
+    "interval": "percentile 95%",
+    "historical_test_selection_use": false
+  },
+  "pr_auc": "Average Precision (sklearn average_precision_score), not trapezoidal PR-AUC",
+  "brier_skill_score": "1 - Brier(model) / Brier(constant training prevalence); development OOF reference is fold-specific training prevalence",
+  "model_selection_use_of_historical_test": false,
+  "python": "3.12.10",
+  "numpy": "2.5.4",
+  "pandas": "3.1.0",
+  "scikit_learn": "1.9.1"
+}

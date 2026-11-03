@@ -1,0 +1,44 @@
+{
+  "dataset": "data/raw/payflow_credit_risk.csv",
+  "dataset_sha256": "a30bf89820062a6927fa99c1180468075a234f16739d35624350936332f73bd8",
+  "experiment_script_sha256": "f8cdc06ef0762acf40cd5c30cd3290570868897a712f8a69689052e8a2a49ae6",
+  "development_rows": 4000,
+  "development_split": {
+    "test_size": 0.2,
+    "stratify": true,
+    "random_state": 42
+  },
+  "cv": {
+    "class": "StratifiedKFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 42
+  },
+  "estimator": "LogisticRegression(max_iter=1000, random_state=42)",
+  "threshold_metrics": "out-of-fold development predictions; classification threshold 0.20 for imputation metrics",
+  "threshold_costs": {
+    "FP=FN (1:1)": [
+      1,
+      1
+    ],
+    "FN=3x FP (1:3)": [
+      1,
+      3
+    ],
+    "FP=3x FN (3:1)": [
+      3,
+      1
+    ],
+    "FN=5x FP (1:5)": [
+      1,
+      5
+    ]
+  },
+  "python_version": "3.12.10",
+  "python_packages": {
+    "pandas": "3.1.0",
+    "numpy": "2.5.4",
+    "scikit_learn": "1.9.1"
+  },
+  "test_split_used_for_selection": false
+}
