@@ -25,7 +25,7 @@ A API será proposta como um serviço de apoio à decisão, não como mecanismo 
 **Endpoint:** `/api/v1/predict`
 
 **Content-Type:** `application/json`
-
+> Nota: a proposta atual não inclui um endpoint `/health`. Se essa rota for adicionada em versões futuras, ela deve ser documentada como um contrato separado e claramente identificado como serviço proposto ou implementado.
 A requisição deverá conter as 17 variáveis utilizadas no treinamento, com os mesmos nomes e tipos.
 
 ### 3.1 Campos de entrada
@@ -149,5 +149,12 @@ O serviço deverá contemplar:
 
 - Autenticação e autorização dos sistemas consumidores.
 - Comunicação protegida por HTTPS.
-- Validação de dados de entrada.
-- Restrição de acesso
+- Validação de dados de entrada, incluindo tipos, faixa de valores e presença de campos obrigatórios.
+- Restrição de acesso por identidade do consumidor, regras de rede e permissões mínimas.
+- Registro de eventos de inferência, falhas de validação e erros internos para governança e rastreabilidade.
+- Tratamento explícito de categorias não previstas; no contrato proposto, categorias desconhecidas devem ser rejeitadas com erro de validação em vez de serem aceitas silenciosamente.
+- Versionamento da interface de API, de modo que mudanças no schema ou no comportamento do modelo sejam rastreáveis.
+
+O uso do `OneHotEncoder(handle_unknown="ignore")` no treinamento não elimina a necessidade de adesão ao contrato. Em inferência, a API deve rejeitar categorias fora do vocabulário esperado e retornar uma resposta de erro de validação (HTTP 422), preservando a regra de negócio e reduzindo o risco de vazamento de informação por uso de entrada mal formada.
+
+O documento descreve uma proposta de implantação e não um serviço em operação. A implementação real exigiria controle de acesso, auditoria, políticas de segurança, governança de dados e monitoramento operacional específicos do ambiente em que o modelo passaria a atuar.

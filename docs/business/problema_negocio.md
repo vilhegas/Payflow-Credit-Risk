@@ -2,7 +2,7 @@
 
 **Projeto:** Credit Risk — Score de Inadimplência  
 **Fase:** 1 — Business Understanding  
-**Status:** Planejamento inicial
+**Status:** Em revisão — definição operacional e limitações documentadas
 
 ---
 

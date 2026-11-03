@@ -131,6 +131,16 @@ A escolha final deverá considerar:
 4. Custos financeiros e operacionais;
 5. Restrições e objetivos da política de crédito.
 
+## 6.1 Justificativa do threshold 0,20
+
+O threshold de 0,20 foi mantido como valor experimental da baseline histórica porque ele equilibra melhor precision e recall para o contexto do desafio, sem que os custos reais de falso positivo e falso negativo tenham sido fornecidos.
+
+A escolha foi feita principalmente pela análise do F1-score no conjunto de validação, uma métrica que combina precision e recall. Esse critério é útil quando a classe positiva é minoritária e quando o objetivo é identificar o maior número possível de casos relevantes sem inflar excessivamente a quantidade de alertas incorretos.
+
+Entretanto, o valor do threshold não representa uma política de crédito definitiva. Em cenários de crédito real, o custo de um falso negativo (conceder crédito a um cliente que se torna inadimplente) e o custo de um falso positivo (rejeitar um cliente que seria saudável) podem ser muito diferentes. Sem essas informações operacionais, não é possível afirmar que um threshold econômicomente ótimo exista ou que o melhor valor estatístico seja adequado ao negócio.
+
+A análise deve, portanto, ser interpretada como uma simulação experimental de apoio à decisão, com 0,20 preservado como referência histórica e não como regra industrial formal.
+
 ## 7. Critérios de sucesso
 
 O desafio não estabelece valores mínimos obrigatórios para recall, ROC-AUC ou redução de perdas.

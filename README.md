@@ -39,6 +39,7 @@ docs/data/             # EDA e preparação
 docs/modeling/         # Avaliação do modelo
 docs/deployment/       # Arquitetura REST, contrato, versionamento e MLOps
 docs/governance/       # Retreinamento e governança
+docs/auditoria/        # Diagnóstico inicial, checklist de correção e registro de evidências
 reports/final/         # Relatório final para entrega acadêmica
 ```
 
