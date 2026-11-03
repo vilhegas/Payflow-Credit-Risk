@@ -78,7 +78,15 @@ O resultado sugere uma associação que poderá ser investigada na modelagem.
 
 A taxa de default foi de 16,15% entre os clientes sem renda informada e de 12,02% entre aqueles com renda preenchida.
 
-Isso sugere que a ausência da informação pode conter um padrão relevante. É necessário avaliar também os registros sem tempo de emprego.
+Essa diferença observada corresponde a uma diferença absoluta aproximada de 4,1 pontos percentuais. No teste exato de Fisher, o valor de p foi aproximadamente 0,091, o que indica que a evidência não é suficiente para afirmar uma associação estatisticamente significativa ao nível convencional de 5% com os dados disponíveis. A análise deve ser interpretada como sugestão exploratória, não como resultado conclusivo de efeito causal ou de forte associação estatística.
+
+### 4.7 Tempo de emprego para autônomos
+
+Os 526 registros com `tempo_emprego_anos` ausente concentraram-se em trabalhadores autônomos (`autonomo = 1`), o que sugere que a ausência da variável pode refletir uma característica de coleta, e não necessariamente um problema aleatório. A taxa de default foi de 12,55% entre clientes sem tempo de emprego informado e 12,14% entre clientes com esse dado preenchido; a diferença observada foi pequena e não suficiente para sustentar uma interpretação causal.
+
+A mediana global de `tempo_emprego_anos` foi aproximadamente 4,64 anos, enquanto a mediana entre autônomos foi 4,86 anos e entre não autônomos foi 4,62 anos. A proximidade entre as medianas indica que a imputação global pela mediana pode ser uma aproximação aceitável em termos de escala, mas a ausência do dado deve continuar sendo tratada como fenômeno específico, e não como evidência automática de que a mediana global represente a melhor estratégia para todos os grupos.
+
+A estratégia `SimpleImputer(strategy="median", add_indicator=True)` foi testada nos dados de desenvolvimento e não apresentou melhoria mensurável em relação à versão original do pipeline. Portanto, a configuração padrão foi preservada como baseline, e o indicador de ausência foi mantido como opção experimental e não como regra de modelagem definitiva.
 
 ## 5. Data Leakage
 

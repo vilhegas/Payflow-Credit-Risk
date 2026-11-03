@@ -3,7 +3,7 @@
 **Projeto:** Credit Risk — Score de Inadimplência  
 **Metodologia:** CRISP-DM  
 **Fase:** Business Understanding  
-**Status:** Concluído — métricas definidas e modelo avaliado
+**Status:** Concluído — baseline preservada e limitações documentadas
 
 ---
 
