@@ -283,4 +283,4 @@ Bootstrap pareado por cliente, 5.000 reamostragens com semente 42, intervalo per
 | Precision em threshold 0,20 | 0,3376 | 0,2642–0,4140 |
 | Recall em threshold 0,20 | 0,4344 | 0,3475–0,5254 |
 
-O teste já foi consultado e estes intervalos apenas quantificam a incerteza dessa avaliação. Eles não são nova validação independente nem foram usados em seleção. CSVs e JSONs com precisão integral ficam em `reports/experiments/`; consulte `docs/auditoria/decisoes_limitacoes.md` para resultados de leakage e métricas exploratórias por grupo.
+O teste já foi consultado e estes intervalos apenas quantificam a incerteza dessa avaliação. Eles não são nova validação independente nem foram usados em seleção. CSVs e JSONs com precisão integral ficam em `reports/experiments/`; consulte `docs/decisoes_e_limitacoes.md` para resultados de leakage e métricas exploratórias por grupo.

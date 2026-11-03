@@ -69,7 +69,7 @@ O conjunto de teste reservado já foi utilizado na avaliação final. Alteraçõ
 
 Na validação OOF de desenvolvimento, a Average Precision foi 0,3799 para Regressão Logística e 0,3907 para Random Forest, ante prevalência 0,12175. Foi calculada por `average_precision_score`, que não é a integração trapezoidal da curva precision-recall. O Brier Skill Score foi 0,1478 e 0,1430, respectivamente, em relação à prevalência de treino específica de cada fold. A análise de `class_weight="balanced"` aumentou recall, mas reduziu precision e piorou Brier; não alterou a baseline.
 
-Os intervalos de ROC-AUC, precision e recall do teste histórico constam em `docs/auditoria/decisoes_limitacoes.md` e `reports/experiments/intervalos_teste_historico.json`. Como o teste já havia sido consultado, os intervalos somente quantificam incerteza amostral; não contam como nova validação.
+Os intervalos de ROC-AUC, precision e recall do teste histórico constam em `docs/decisoes_e_limitacoes.md` e `reports/experiments/intervalos_teste_historico.json`. Como o teste já havia sido consultado, os intervalos somente quantificam incerteza amostral; não contam como nova validação.
 
 ## 9. Referências
 

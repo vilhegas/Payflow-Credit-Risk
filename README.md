@@ -39,7 +39,7 @@ docs/data/             # EDA e preparação
 docs/modeling/         # Avaliação do modelo
 docs/deployment/       # Arquitetura REST, contrato, versionamento e MLOps
 docs/governance/       # Retreinamento e governança
-docs/auditoria/        # Diagnóstico inicial, checklist de correção e registro de evidências
+docs/decisoes_e_limitacoes.md  # Decisões metodológicas e limitações
 reports/final/         # Relatório final para entrega acadêmica
 reports/experiments/   # Resultados versionados e configurações dos experimentos
 src/experiments/       # Scripts reprodutíveis de análise em desenvolvimento
