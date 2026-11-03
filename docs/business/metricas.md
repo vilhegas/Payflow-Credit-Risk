@@ -3,7 +3,7 @@
 **Projeto:** Credit Risk — Score de Inadimplência  
 **Metodologia:** CRISP-DM  
 **Fase:** Business Understanding  
-**Status:** Planejamento
+**Status:** Concluído — métricas definidas e modelo avaliado
 
 ---
 
@@ -131,8 +131,6 @@ A escolha final deverá considerar:
 4. Custos financeiros e operacionais;
 5. Restrições e objetivos da política de crédito.
 
-O threshold será selecionado usando dados de validação, sem otimização sobre o conjunto de teste final.
-
 ## 7. Critérios de sucesso
 
 O desafio não estabelece valores mínimos obrigatórios para recall, ROC-AUC ou redução de perdas.
@@ -147,8 +145,6 @@ A solução deverá:
 - Permitir análise explícita dos custos de classificação;
 - Utilizar somente informações disponíveis no momento da decisão;
 - Apresentar desempenho documentado em dados separados do treinamento.
-
-Nenhuma meta de desempenho será declarada como alcançada antes da execução dos experimentos.
 
 ## 8. Relação entre negócio e modelo
 
@@ -176,3 +172,28 @@ Esse impacto dependerá da política de concessão, dos custos envolvidos e de v
 
 - `Desafio_Disciplina_PayFlow_Credit_Risk.docx`;
 - `dicionario_dados_payflow.md`.
+
+## Resultados obtidos — Avaliação final
+
+Após a execução das etapas de modelagem e avaliação, foi selecionada a Regressão Logística, utilizando threshold de classificação de 0,20.
+
+Os resultados no conjunto de teste reservado, composto por 1.000 registros, foram:
+
+| Métrica | Resultado |
+|---|---:|
+| Acurácia | 82,70% |
+| Precision | 33,76% |
+| Recall | 43,44% |
+| F1-score | 37,99% |
+| ROC-AUC | 0,7202 |
+| Brier Score | 0,0977 |
+
+O modelo identificou corretamente 53 dos 122 clientes inadimplentes presentes no conjunto de teste.
+
+Entretanto, 69 inadimplentes não foram identificados e 104 clientes adimplentes foram classificados como possíveis inadimplentes.
+
+**Conclusão:** o modelo apresentou capacidade preditiva, mas suas limitações impedem afirmar que esteja pronto para decisões automáticas de concessão de crédito.
+
+O impacto financeiro real não foi calculado, pois o dataset não disponibiliza os custos necessários para quantificar as consequências dos erros de classificação.
+
+A avaliação experimental foi concluída. A validação de impacto de negócio permanece pendente de dados operacionais reais.
