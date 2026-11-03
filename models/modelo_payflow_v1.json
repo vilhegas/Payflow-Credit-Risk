@@ -1,0 +1,36 @@
+{
+    "versao_modelo": "1.0.0",
+    "arquivo_modelo": "modelo_payflow_v1.joblib",
+    "algoritmo": "LogisticRegression",
+    "threshold": 0.2,
+    "target": "default_90d",
+    "horizonte_dias": 90,
+    "features": [
+        "idade",
+        "renda_mensal",
+        "tempo_emprego_anos",
+        "autonomo",
+        "score_credito",
+        "valor_solicitado",
+        "prazo_meses",
+        "qtde_cartoes",
+        "qtde_contratos_abertos",
+        "utilizacao_credito",
+        "inadimplencias_anteriores",
+        "dias_atraso_max_12m",
+        "reclamacoes_6m",
+        "possui_avalista",
+        "canal_aquisicao",
+        "regiao",
+        "tipo_produto"
+    ],
+    "versao_sklearn": "1.9.1",
+    "metricas_teste": {
+        "Acurácia": 0.827,
+        "Precision": 0.3376,
+        "Recall": 0.4344,
+        "F1-score": 0.3799,
+        "ROC-AUC": 0.7202,
+        "Brier Score": 0.0977
+    }
+}

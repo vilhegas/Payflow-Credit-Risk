@@ -20,6 +20,9 @@ logs/*
 # Modelos gerados
 models/*
 !models/.gitkeep
+# Artefatos históricos da v1 usados como baseline acadêmica e pelos testes.
+!models/modelo_payflow_v1.joblib
+!models/modelo_payflow_v1.json
 
 # Dados processados
 data/interim/*
