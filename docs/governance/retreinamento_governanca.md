@@ -158,9 +158,7 @@ Os custos financeiros dos erros ainda não foram definidos.
 
 A definição operacional de inadimplência precisa ser formalizada.
 
-A comparação entre versões futuras dependerá de novos dados, critérios aprovados e avaliação independente.
-
-Assim, este plano representa uma estratégia de governança proposta, não um processo operacional já implantado.
+A comparação entre versões futuras dependerá de novos dados, critérios aprovados e avaliação independente. O plano complementar de monitoramento está em `docs/deployment/monitoramento_mlops.md`.
 
 ## 13. Referências
 

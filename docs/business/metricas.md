@@ -220,8 +220,8 @@ Esse impacto dependerá da política de concessão, dos custos envolvidos e de v
 
 **Arquivos do desafio:**
 
-- `Desafio_Disciplina_PayFlow_Credit_Risk.docx`;
-- `dicionario_dados_payflow.md`.
+- `docs/desafio/Desafio_Disciplina_PayFlow_Credit_Risk.docx`;
+- `docs/desafio/dicionario_dados_payflow.md`.
 
 ## Resultados obtidos — Avaliação final
 

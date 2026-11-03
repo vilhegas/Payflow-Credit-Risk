@@ -131,14 +131,14 @@ O identificador `id_cliente` também não será utilizado como variável predito
 - As associações exploratórias não comprovam causalidade.
 - A relevância preditiva das variáveis deverá ser avaliada em dados separados do treinamento.
 - A validação é aleatória, não temporal, pois não há datas no dataset.
-- A análise descritiva original em `02_eda.ipynb` consultou o conjunto completo antes da divisão; isso é preservado como histórico exploratório e não foi usado para seleção dos experimentos de modelagem aqui registrados.
+- A análise descritiva original em `notebooks/02_eda.ipynb` consultou o conjunto completo antes da divisão; isso é preservado como histórico exploratório e não foi usado para seleção dos experimentos de modelagem aqui registrados.
 
 ## 9. Referências
 
 - FIAP — Análise Exploratória de Dados, Aulas 1 a 4.
 - FIAP — Estatística Essencial para Cientistas de Dados.
 - FIAP — Introdução ao CRISP-DM.
-- `01_auditoria.ipynb`.
-- `02_eda.ipynb`.
-- `dicionario_dados_payflow.md`.
-- `Desafio_Disciplina_PayFlow_Credit_Risk.docx`.
+- `notebooks/01_auditoria.ipynb`.
+- `notebooks/02_eda.ipynb`.
+- `docs/desafio/dicionario_dados_payflow.md`.
+- `docs/desafio/Desafio_Disciplina_PayFlow_Credit_Risk.docx`.

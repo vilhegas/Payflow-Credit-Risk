@@ -165,4 +165,4 @@ O serviço deverá contemplar:
 
 O uso do `OneHotEncoder(handle_unknown="ignore")` no treinamento não elimina a necessidade de adesão ao contrato. Em inferência, a API deve rejeitar categorias fora do vocabulário esperado e retornar uma resposta de erro de validação (HTTP 422), preservando a regra de negócio e reduzindo o risco de vazamento de informação por uso de entrada mal formada.
 
-O documento descreve uma proposta de implantação: `/health` e `/api/v1/predict` não são endpoints implementados, e não existe implantação em produção. A implementação real exigiria controle de acesso, auditoria, políticas de segurança, governança de dados e monitoramento operacional específicos do ambiente em que o modelo passaria a atuar.
+A especificação é acadêmica e depende de requisitos de segurança, governança e monitoramento definidos para o ambiente operacional; consulte `arquitetura.md` e `docs/decisoes_e_limitacoes.md`.

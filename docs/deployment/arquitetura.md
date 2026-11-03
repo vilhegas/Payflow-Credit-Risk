@@ -86,13 +86,7 @@ As inferências deverão ser rastreáveis por identificadores técnicos, timesta
 
 ## 8. Limitações
 
-A arquitetura representa uma proposta acadêmica. `GET /health` e `POST /api/v1/predict` são especificações, não endpoints funcionais; não há API implantada ou serviço aprovado para produção.
-
-O modelo atual apresenta recall limitado e não foi validado em dados reais e temporais.
-
-Os custos de erros de classificação e as políticas operacionais de concessão de crédito ainda precisam ser definidos.
-
-O serviço não deverá aprovar ou negar crédito automaticamente apenas com base na classificação prevista.
+O modelo tem recall limitado e não foi validado com dados reais ou temporais. Custos e políticas de crédito ainda precisam ser definidos; a classificação deve apoiar a análise, não aprovar ou negar crédito sozinha. O escopo e as pendências operacionais estão em `docs/decisoes_e_limitacoes.md`.
 
 ## 9. Próximas atividades
 

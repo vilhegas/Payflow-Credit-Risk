@@ -140,15 +140,11 @@ Essas variáveis deverão ser excluídas das entradas do modelo de concessão, p
 
 ### 7.2 Dados sintéticos
 
-A base fornecida é sintética e representa uma operação simulada.
-
-Assim, o desempenho obtido nos experimentos não comprovará a efetividade da solução em uma instituição financeira real.
+A base é sintética; os resultados descrevem o cenário simulado e dependem de validação com dados reais para sustentar uma aplicação operacional.
 
 ### 7.3 Disponibilidade temporal
 
-O dicionário fornecido não identifica uma coluna de data de solicitação ou concessão.
-
-Essa limitação precisará ser considerada na escolha da estratégia de validação.
+Sem uma data de solicitação ou concessão, não foi possível realizar validação temporal. A limitação e a necessidade de dados por safra estão detalhadas em `docs/decisoes_e_limitacoes.md`.
 
 ### 7.4 Disponibilidade das variáveis
 
@@ -182,5 +178,5 @@ As metas quantitativas e os critérios mensuráveis de sucesso serão definidos 
 
 **Arquivos do desafio:**
 
-- `Desafio_Disciplina_PayFlow_Credit_Risk.docx`;
-- `dicionario_dados_payflow.md`.
+- `docs/desafio/Desafio_Disciplina_PayFlow_Credit_Risk.docx`;
+- `docs/desafio/dicionario_dados_payflow.md`.

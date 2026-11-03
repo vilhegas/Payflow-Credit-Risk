@@ -80,9 +80,7 @@ Durante a validação cruzada, as transformações deverão ser ajustadas separa
 
 ## 8. Limitações
 
-A base é sintética. A disponibilidade temporal de todas as variáveis candidatas ainda precisa ser confirmada em um cenário operacional real.
-
-A definição exata de default também depende de documentação adicional da regra de negócio.
+A base é sintética e não contém datas de concessão. A disponibilidade temporal das variáveis e a definição operacional do target precisam ser confirmadas; consulte `docs/decisoes_e_limitacoes.md` para as evidências e limitações registradas.
 
 
 ## 9. Referências
@@ -90,5 +88,5 @@ A definição exata de default também depende de documentação adicional da re
 - FIAP — Introdução ao CRISP-DM, páginas 11–12.
 - FIAP — Boas Práticas de Programação e Documentação (Cookiecutter).
 - Dicionário de dados PayFlow.
-- `03_preparacao.ipynb`.
-- `preprocessing.py`.
+- `notebooks/03_preparacao.ipynb`.
+- `src/features/preprocessing.py`.

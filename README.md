@@ -57,7 +57,7 @@ python -m pip install -r requirements-dev.txt
 jupyter lab
 ```
 
-Execute os notebooks, em ordem: `01_auditoria.ipynb`, `02_eda.ipynb`, `03_preparacao.ipynb` e `04_modelagem.ipynb`. Se usar VS Code, selecione o interpretador Python do `.venv` como kernel.
+Execute os notebooks, em ordem: `notebooks/01_auditoria.ipynb`, `notebooks/02_eda.ipynb`, `notebooks/03_preparacao.ipynb` e `notebooks/04_modelagem.ipynb`. Se usar VS Code, selecione o interpretador Python do `.venv` como kernel.
 
 Para reproduzir as comparações de imputação e sensibilidade do threshold sem usar o conjunto de teste para seleção, execute na raiz do repositório:
 
@@ -78,11 +78,11 @@ Para instalar o ambiente de notebooks sem ferramentas de teste, use `python -m p
 
 ## Proposta de implantação
 
-A documentação especifica uma **proposta acadêmica de API REST**, com `POST /api/v1/predict` para receber as 17 variáveis e devolver probabilidade, classificação e versão do modelo, e `GET /health` para indicar a disponibilidade do serviço e do artefato. A camada da API validaria campos e categorias antes da inferência; categorias fora do vocabulário observado no CSV seriam rejeitadas com HTTP 422, embora o `OneHotEncoder` configurado possa ignorá-las tecnicamente. O contrato também propõe autenticação/autorização, HTTPS, restrição de acesso e versionamento do caminho. Esses endpoints e o monitoramento de drift, logs e retreinamento são **propostos, não implementados nem implantados**. As categorias documentadas são as encontradas no CSV atual; seu alinhamento com sistemas operacionais precisaria ser confirmado antes de uma implantação.
+Os documentos em `docs/deployment/` descrevem uma proposta acadêmica de API REST, incluindo `POST /api/v1/predict`, `GET /health`, contrato, segurança e monitoramento. As rotas e controles não estão implementados nem implantados; as categorias observadas no CSV ainda precisam ser validadas com os sistemas operacionais.
 
 ## Limitações
 
-A base é sintética, não possui datas para validação temporal e não especifica integralmente a regra operacional de default nem a origem e o momento real de disponibilidade das variáveis. O split aleatório pode misturar safras que uma avaliação temporal manteria separadas. Os custos financeiros de falsos positivos e falsos negativos não foram fornecidos. Portanto, o threshold escolhido é uma decisão técnica experimental, não uma política operacional de concessão de crédito. A análise por grupos é exploratória e não demonstra fairness nem adequação para decisões reais.
+A base é sintética e não contém datas para validação temporal; a regra operacional do target e a disponibilidade das variáveis precisam de confirmação. Custos de erro não foram fornecidos, portanto o threshold 0,20 é uma referência experimental, não uma política de crédito. A análise por grupos é exploratória. Uso operacional dependeria de validação com dados reais, monitoramento e governança da decisão.
 
 ## Referências
 

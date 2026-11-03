@@ -155,11 +155,7 @@ A operação deverá envolver responsabilidades definidas entre:
 
 ## 11. Limitações
 
-O projeto utiliza dados sintéticos e não dispõe de uma operação real para medir drift em produção.
-
-Os valores de referência resultam de uma avaliação acadêmica.
-
-Antes de uma implantação real, será necessário estabelecer critérios objetivos de alerta, responsáveis, metas operacionais e procedimentos de resposta aprovados pela PayFlow.
+Sem dados operacionais, não há como medir drift em produção. Antes de uma implantação, a PayFlow precisaria aprovar limites de alerta, responsáveis, metas e procedimentos de resposta; veja as limitações gerais em `docs/decisoes_e_limitacoes.md`.
 
 ### Métricas e heurísticas adicionais
 
